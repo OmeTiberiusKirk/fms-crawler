@@ -1,4 +1,6 @@
 <payloads>
+    <garon>garon</garon>
+
     <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -7,6 +9,50 @@
             <Execute xmlns="urn:schemas-microsoft-com:xml-analysis">
                 <Command>
                     <Statement><![CDATA[SELECT Subset(DISTINCT({[HS].levels(0).allmembers, [HS].levels(1).allmembers}), 20000, 5000) DIMENSION PROPERTIES PARENT_UNIQUE_NAME on columns FROM [TRADE]]]></Statement>
+                </Command>
+                <Properties>
+                    <PropertyList flexmonster="true">
+                        <DataSourceInfo>Provider=Mondrian;DataSource=TISTradeThaiExport</DataSourceInfo>
+                        <Catalog>TRADE</Catalog>
+                        <AxisFormat>TupleFormat</AxisFormat>
+                        <Content>Data</Content>
+                        <Format>Multidimensional</Format>
+                    </PropertyList>
+                </Properties>
+            </Execute>
+        </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>
+
+    <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" flexmonster="true">
+        <SOAP-ENV:Body>
+            <Execute xmlns="urn:schemas-microsoft-com:xml-analysis">
+                <Command>
+                    <Statement><![CDATA[SELECT Subset(DISTINCT({[HS].levels(0).allmembers, [HS].levels(1).allmembers}), 30000, 5000) DIMENSION PROPERTIES PARENT_UNIQUE_NAME on columns FROM [TRADE]]]></Statement>
+                </Command>
+                <Properties>
+                    <PropertyList flexmonster="true">
+                        <DataSourceInfo>Provider=Mondrian;DataSource=TISTradeThaiExport</DataSourceInfo>
+                        <Catalog>TRADE</Catalog>
+                        <AxisFormat>TupleFormat</AxisFormat>
+                        <Content>Data</Content>
+                        <Format>Multidimensional</Format>
+                    </PropertyList>
+                </Properties>
+            </Execute>
+        </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>
+
+    <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" flexmonster="true">
+        <SOAP-ENV:Body>
+            <Execute xmlns="urn:schemas-microsoft-com:xml-analysis">
+                <Command>
+                    <Statement><![CDATA[SELECT Subset(DISTINCT({[HS].levels(0).allmembers, [HS].levels(1).allmembers}), 35000, 5000) DIMENSION PROPERTIES PARENT_UNIQUE_NAME on columns FROM [TRADE]]]></Statement>
                 </Command>
                 <Properties>
                     <PropertyList flexmonster="true">
