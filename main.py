@@ -1,30 +1,49 @@
-import requests, re
-from dotenv import dotenv_values
+import requests
+import re
 import hints
 
-if __name__ == "__main__":
-    config: hints.Config = dotenv_values(".env")
 
-    with requests.Session() as s:
-        # Session automatically stores cookies for you
-        r = s.get(config["WEB_BASE_URL"])
+config: hints.Config = {
+    "WEB_BASE_URL": "https://fms.dtn.go.th",
+    "EMAIL": "user@example.com",
+    "PASS": "user123"
+}
 
-        # Extract _token hidden input
-        m = re.search(r'name="_token".+value="([^"]+)"', r.text)
-        token = m.group(1)
+with requests.Session() as s:
+    WEB_BASE_URL = 2
+    # Session automatically stores cookies for you
+    r = s.get(config["WEB_BASE_URL"])
+    # Extract _token hidden input
+    m = re.search(r'name="_token".+value="([^"]+)"', r.text)
+    token = m.group(1)
+    print(f"""
+get token
+url = {r.request.url}
+token = {token}
+status = {r.status_code}
+----------------------------
+    """)
 
-        payload = {
-            "_token": token,
-            "email": config["EMAIL"],
-            "password": config["PASS"],
-        }
+    payload = {
+        "_token": token,
+        "email": config["EMAIL"],
+        "password": config["PASS"],
+    }
+    url = f"{config['WEB_BASE_URL']}/auth"
+    # POST using the same session (cookies are kept automatically)
+    r = s.post(url, data=payload)
+    print(f"""
+signin
+url = {url}
+status = {r.status_code}
+----------------------------
+    """)
 
-        # POST using the same session (cookies are kept automatically)
-        r = s.post(f"{config['WEB_BASE_URL']}/auth", data=payload)
-        print(f"url: {r.url}")
-        print(f"status: {r.status_code}")
-
-        r = s.get(f"{config['WEB_BASE_URL']}/fta-monitoring-country")
-        print(f"url: {r.url}")
-        print(f"status: {r.status_code}")
-
+    url = f"{config['WEB_BASE_URL']}/fta-monitoring-country"
+    r = s.get(url)
+    print(f"""
+fta-monitoring-country
+url = {url}
+status = {r.status_code}
+----------------------------
+    """)

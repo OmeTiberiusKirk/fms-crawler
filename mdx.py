@@ -1,22 +1,27 @@
 import requests
 import hints
-from dotenv import dotenv_values
 
-if __name__ == "__main__":
-    filename = "payloads.txt"
-    config: hints.Config = dotenv_values(".env")
+config: hints.Config = {
+    # "MDX_BASE_URL": "https://fms-mdx.dtn.go.th/jpivot/xmla",
+    "MDX_BASE_URL": "http://1.1.253.130:8088/jpivot/xmla",
+}
 
-    try:
-        with open(filename, "r") as file:
-            for line in file:
-                resp = requests.post(
-                    f"{config['MDX_BASE_URL']}:8080/jpivot/xmla",
-                    headers={"Content-Type": "text/xml"},
-                    data=line.strip(),
-                )
-                print(f"url: {resp.url}")
-                print(f"status: {resp.status_code}")
-    except FileNotFoundError:
-        print(f"Error: The file '{filename}' was not found.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+filename = "payloads.txt"
+
+try:
+    with open(filename, "r", encoding='utf-8') as file:
+        print("-------- mdx crawler -------")
+        r = 0
+        for line in file:
+            r += 1
+            print("row =", r)
+            resp = requests.post(
+                f"{config['MDX_BASE_URL']}",
+                headers={"Content-Type": "text/xml"},
+                data=line.strip(),
+            )
+            print(f"status = {resp.status_code}")
+except FileNotFoundError:
+    print(f"Error: The file '{filename}' was not found.")
+except Exception as e:
+    print(f"An error occurred: {e}")
