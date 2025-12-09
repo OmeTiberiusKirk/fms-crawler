@@ -9,8 +9,8 @@ config: hints.Config = {
     "PASS": "user123"
 }
 
-with requests.Session() as s:
-    WEB_BASE_URL = 2
+
+def createSession():
     # Session automatically stores cookies for you
     r = s.get(config["WEB_BASE_URL"])
     # Extract _token hidden input
@@ -39,11 +39,16 @@ status = {r.status_code}
 ----------------------------
     """)
 
-    url = f"{config['WEB_BASE_URL']}/fta-monitoring-country"
-    r = s.get(url)
-    print(f"""
-fta-monitoring-country
-url = {url}
-status = {r.status_code}
-----------------------------
-    """)
+
+pages = ("fta-monitoring-country", "fta-monitoring-product")
+
+with requests.Session() as s:
+    for p in pages:
+        url = f"{config['WEB_BASE_URL']}/{p}"
+        r = s.get(url)
+        print(f"""
+    {p}
+    url = {url}
+    status = {r.status_code}
+    ----------------------------
+        """)
