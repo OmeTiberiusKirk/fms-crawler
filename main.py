@@ -5,12 +5,13 @@ import hints
 
 config: hints.Config = {
     "WEB_BASE_URL": "https://fms.dtn.go.th",
+    # "WEB_BASE_URL": "http://127.0.0.1",
     "EMAIL": "user@example.com",
     "PASS": "user123"
 }
 
 
-def createSession():
+def createSession(s: requests.Session):
     # Session automatically stores cookies for you
     r = s.get(config["WEB_BASE_URL"])
     # Extract _token hidden input
@@ -34,7 +35,7 @@ status = {r.status_code}
     r = s.post(url, data=payload)
     print(f"""
 signin
-url = {url}
+url = {url} --> {r.url}
 status = {r.status_code}
 ----------------------------
     """)
@@ -43,12 +44,13 @@ status = {r.status_code}
 pages = ("fta-monitoring-country", "fta-monitoring-product")
 
 with requests.Session() as s:
+    createSession(s)
     for p in pages:
         url = f"{config['WEB_BASE_URL']}/{p}"
         r = s.get(url)
         print(f"""
-    {p}
-    url = {url}
-    status = {r.status_code}
-    ----------------------------
+{p}
+url = {url}
+status = {r.status_code}
+----------------------------
         """)
